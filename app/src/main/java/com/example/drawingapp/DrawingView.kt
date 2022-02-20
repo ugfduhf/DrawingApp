@@ -3,6 +3,7 @@ package com.example.drawingapp
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 
@@ -19,6 +20,7 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
 
     //background , the white background that i want to draw on
     private var canvas: Canvas? = null
+    private var mPaths = ArrayList<CustomPath>()
 
     init {
         setUpDrawing()
@@ -32,7 +34,7 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
         mDrawPaint!!.strokeJoin = Paint.Join.ROUND
         mDrawPaint!!.strokeCap = Paint.Cap.ROUND
         mCanvasPaint = Paint(Paint.DITHER_FLAG)
-        mBrushSize = 20.toFloat()
+       // mBrushSize = 20.toFloat()//  Move to Main Activity
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -83,9 +85,13 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
             else -> return false
         }
         invalidate()
-
        return true
-
+    }
+    fun setSizeForBrush(newSize:Float){
+        mBrushSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+        newSize,resources.displayMetrics
+        )
+        mDrawPaint!!.strokeWidth = mBrushSize
     }
 
    internal inner class CustomPath(var color:Int, var brushThickness:Float) : Path() {
