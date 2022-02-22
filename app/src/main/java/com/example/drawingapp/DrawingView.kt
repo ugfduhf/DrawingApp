@@ -47,7 +47,17 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
     //change Canvas to canvas? if fails
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawBitmap(mCanvasBitmap!!, 0f, 0f, mCanvasPaint)
+        mCanvasBitmap?.let {
+            canvas.drawBitmap(it, 0f,   0f, mCanvasPaint)
+        }
+
+       // canvas.drawBitmap(mCanvasBitmap!!, 0f, 0f, mCanvasPaint)
+
+        for (p in mPaths) {
+            mDrawPaint?.strokeWidth = p.brushThickness
+            mDrawPaint?.color = p.color
+            canvas.drawPath(p, mDrawPaint!!)
+        }
         if (!mDrawPath!!.isEmpty) {
             mDrawPaint!!.strokeWidth = mDrawPath!!.brushThickness
             mDrawPaint!!.color = mDrawPath!!.color
@@ -62,30 +72,34 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
 
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                mDrawPath!!.color = color
-                mDrawPath!!.brushThickness = mBrushSize
+                mDrawPath?.color = color
+                mDrawPath?.brushThickness = mBrushSize
 
-                mDrawPath!!.reset()
-                if (touchX != null) {
-                    if (touchY != null) {
-                        mDrawPath!!.moveTo(touchX, touchY)
-                    }
-                }
+                mDrawPath?.reset() // Clear any lines and curves from the path, making it empty.
+                mDrawPath?.moveTo(
+                    touchX!!,
+                    touchY!!
+                ) // Set the beginning of the next contour to the point (x,y).
             }
+
             MotionEvent.ACTION_MOVE -> {
-                if (touchX != null) {
-                    if (touchY != null) {
-                        mDrawPath!!.lineTo(touchX, touchY)
-                    }
-                }
+                mDrawPath?.lineTo(
+                    touchX!!,
+                    touchY!!
+                ) // Add a line from the last point to the specified point (x,y).
             }
+
             MotionEvent.ACTION_UP -> {
+
+                mPaths.add(mDrawPath!!) //Add when to stroke is drawn to canvas and added in the path arraylist
+
                 mDrawPath = CustomPath(color, mBrushSize)
             }
             else -> return false
         }
+
         invalidate()
-       return true
+        return true
     }
     fun setSizeForBrush(newSize:Float){
         mBrushSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
