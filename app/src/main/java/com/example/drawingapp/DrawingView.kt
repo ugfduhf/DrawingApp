@@ -39,10 +39,10 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
     }
     // redo
     fun onClickRedo(){
-        if (mRdoPaths.size > 0 ){
+        if (mUndoPaths.size > 0 ){
 
 
-            mRdoPaths = mUndoPaths
+           mPaths.add(mUndoPaths.removeAt(mUndoPaths.size-1))
 
             invalidate()
 
