@@ -84,6 +84,15 @@ class MainActivity : AppCompatActivity() {
         ib_brush.setOnClickListener {
             showBrushSizeChooserDialog()
         }
+        // undo (delete)
+        ib_undo_men.setOnClickListener {
+           drawingView?.onClickUndo()
+
+        }
+        ib_Redo_men.setOnClickListener {
+            drawingView?.onClickRedo()
+
+        }
 
     }
     private fun showBrushSizeChooserDialog(){
@@ -135,8 +144,6 @@ class MainActivity : AppCompatActivity() {
         }else{
             requestPermission.launch(arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE
-
-
             ))
         }
     }

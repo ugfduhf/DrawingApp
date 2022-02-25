@@ -21,11 +21,33 @@ class DrawingView(context: Context,attrs: AttributeSet):View(context, attrs) {
     //background , the white background that i want to draw on
     private var canvas: Canvas? = null
     private var mPaths = ArrayList<CustomPath>()
+    private var mUndoPaths = ArrayList<CustomPath>()
+    private var mRdoPaths = ArrayList<CustomPath>()
+
 
     init {
         setUpDrawing()
     }
+    // delete (undo)
+    fun onClickUndo(){
+        if (mPaths.size > 0 ){
 
+            mUndoPaths.add(mPaths.removeAt(mPaths.size -1))
+
+            invalidate()
+        }
+    }
+    // redo
+    fun onClickRedo(){
+        if (mRdoPaths.size > 0 ){
+
+
+            mRdoPaths = mUndoPaths
+
+            invalidate()
+
+        }
+    }
     private fun setUpDrawing() {
         mDrawPaint = Paint()
         mDrawPath = CustomPath(color, mBrushSize)

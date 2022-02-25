@@ -163,6 +163,14 @@
         app:layout_constraintStart_toStartOf="parent"
         >
         <ImageButton
+            android:id="@+id/ib_undo_men"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/undo"
+            android:scaleType="fitXY"
+            />
+        <ImageButton
             android:id="@+id/ib_gallery_men"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -180,6 +188,15 @@
             android:src="@drawable/brush"
             android:scaleType="fitXY"
 
+            />
+
+        <ImageButton
+            android:id="@+id/ib_Redo_men"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/redo"
+            android:scaleType="fitXY"
             />
     </LinearLayout>
 
